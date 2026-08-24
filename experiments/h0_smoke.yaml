@@ -1,0 +1,16 @@
+name: h0_smoke
+model:
+  provider: mock
+  name: mock-deterministic
+environment:
+  name: commerce_world
+  fixture: baseline_001
+harnesses:
+  - name: direct
+tasks:
+  dataset: commerce_v1
+budget:
+  max_steps: 12
+repetitions: 1
+seed: 0
+output_dir: runs

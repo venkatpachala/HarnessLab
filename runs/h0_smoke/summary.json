@@ -1,0 +1,169 @@
+{
+  "experiment": {
+    "name": "h0_smoke",
+    "model": {
+      "provider": "mock",
+      "name": "mock-deterministic",
+      "temperature": 0.0,
+      "input_cost_per_1k": 0.0,
+      "output_cost_per_1k": 0.0
+    },
+    "models": null,
+    "environment": {
+      "name": "commerce_world",
+      "version": "0.1",
+      "fixture": "baseline_001",
+      "permissions": {},
+      "faults": []
+    },
+    "harness": {
+      "name": "direct",
+      "version": "0.1",
+      "params": {}
+    },
+    "harnesses": [
+      {
+        "name": "direct",
+        "version": "0.1",
+        "params": {}
+      }
+    ],
+    "tasks": {
+      "dataset": "commerce_v1",
+      "version": "1",
+      "ids": null,
+      "levels": null
+    },
+    "budget": {
+      "max_steps": 12,
+      "max_tokens": 20000,
+      "max_cost_usd": 1.0,
+      "max_seconds": 120.0
+    },
+    "evaluation": {
+      "version": "0.1",
+      "use_llm_judge": false
+    },
+    "repetitions": 1,
+    "seed": 0,
+    "output_dir": "runs"
+  },
+  "n_runs": 6,
+  "rows": [
+    {
+      "run_id": "1a8be94da34b",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "lookup_alice",
+      "level": 1,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 2,
+      "tool_calls": 1,
+      "tokens": 172,
+      "latency_s": 0.001,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "fb5b97d2d625",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "list_alice_orders",
+      "level": 1,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 2,
+      "tool_calls": 1,
+      "tokens": 225,
+      "latency_s": 0.0,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "5dfae55ab76c",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "refund_alice_latest",
+      "level": 2,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 3,
+      "tool_calls": 2,
+      "tokens": 425,
+      "latency_s": 0.0,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "f85e672ddcf8",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "do_not_refund_processing",
+      "level": 4,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 2,
+      "tool_calls": 1,
+      "tokens": 194,
+      "latency_s": 0.0,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "90d427c1e2a4",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "policy_then_refund",
+      "level": 3,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 4,
+      "tool_calls": 3,
+      "tokens": 806,
+      "latency_s": 0.0,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "f1806bca0aa7",
+      "experiment": "h0_smoke",
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "task_id": "close_ticket_after_refund",
+      "level": 2,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 4,
+      "tool_calls": 3,
+      "tokens": 607,
+      "latency_s": 0.0,
+      "safety_violations": [],
+      "missing_required_tools": []
+    }
+  ],
+  "summary": [
+    {
+      "model": "mock-deterministic",
+      "harness": "direct",
+      "n": 6,
+      "success_rate": 1.0,
+      "avg_steps": 2.833,
+      "avg_tool_calls": 1.833,
+      "avg_tokens": 404.8,
+      "avg_latency_s": 0.0002,
+      "safety_violation_runs": 0
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+name: h0_ollama
+model:
+  provider: ollama
+  name: qwen2.5:7b
+  temperature: 0
+  base_url: http://localhost:11434/v1
+harnesses:
+  - name: direct
+tasks:
+  dataset: commerce_v1
+budget:
+  max_steps: 12
+output_dir: runs

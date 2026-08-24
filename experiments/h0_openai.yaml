@@ -1,0 +1,14 @@
+name: h0_openai
+model:
+  provider: openai
+  name: gpt-4o-mini
+  temperature: 0
+harnesses:
+  - name: direct
+tasks:
+  dataset: commerce_v1
+budget:
+  max_steps: 12
+repetitions: 1
+seed: 0
+output_dir: runs
