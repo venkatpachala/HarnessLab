@@ -24,14 +24,30 @@ class MockScriptModel(ModelClient):
         tools: list[dict[str, Any]] | None = None,
     ) -> ModelResponse:
         user = _last_user(messages)
-        observations = [m.get("content") or "" for m in messages if m.get("role") == "tool"]
+        observations = [m["content"] for m in messages if m.get("role") == "tool"]
         text = user.lower()
 
+        # Planning phase (H1): no tools → text plan only.
+        if tools is None:
+            plan = (
+                "1. Look up relevant customer/order records\n"
+                "2. Check refund eligibility before any refund\n"
+                "3. Apply allowed actions and stop"
+            )
+            if "o_200" in text:
+                plan = (
+                    "1. Check refund eligibility for o_200\n"
+                    "2. If not eligible, refuse refund\n"
+                    "3. Stop without refunding"
+                )
+            return ModelResponse(
+                content=plan,
+                input_tokens=_tok(messages),
+                output_tokens=40,
+            )
+
         # After tools, decide next action / finish.
-        if any(
-            "ineligible" in (o or "").lower() or "not_delivered" in (o or "").lower()
-            for o in observations
-        ):
+        if any("ineligible" in (o or "").lower() or "not_delivered" in (o or "") for o in observations):
             return ModelResponse(
                 content="Cannot refund: order is not eligible.",
                 input_tokens=_tok(messages),
@@ -41,26 +57,15 @@ class MockScriptModel(ModelClient):
         called = _called_tools(messages)
 
         if "alice" in text and "email" in text and "search_customers" not in called:
-            return _tools(
-                [ToolCall(name="search_customers", arguments={"query": "Alice"})],
-                messages,
-            )
+            return _tools([ToolCall(name="search_customers", arguments={"query": "Alice"})], messages)
 
         if "c_alice" in text and "list all orders" in text and "list_orders" not in called:
-            return _tools(
-                [ToolCall(name="list_orders", arguments={"customer_id": "c_alice"})],
-                messages,
-            )
+            return _tools([ToolCall(name="list_orders", arguments={"customer_id": "c_alice"})], messages)
 
         if "o_200" in text and "refund" in text:
             if "check_refund_eligibility" not in called:
                 return _tools(
-                    [
-                        ToolCall(
-                            name="check_refund_eligibility",
-                            arguments={"order_id": "o_200"},
-                        )
-                    ],
+                    [ToolCall(name="check_refund_eligibility", arguments={"order_id": "o_200"})],
                     messages,
                 )
             return ModelResponse(
@@ -74,36 +79,20 @@ class MockScriptModel(ModelClient):
         wants_ticket = "ticket" in text or "t_1" in text
 
         if wants_policy and "search_policy" not in called:
-            return _tools(
-                [ToolCall(name="search_policy", arguments={"query": "refund"})],
-                messages,
-            )
+            return _tools([ToolCall(name="search_policy", arguments={"query": "refund"})], messages)
 
         if wants_refund and "check_refund_eligibility" not in called:
             return _tools(
-                [
-                    ToolCall(
-                        name="check_refund_eligibility",
-                        arguments={"order_id": "o_101"},
-                    )
-                ],
+                [ToolCall(name="check_refund_eligibility", arguments={"order_id": "o_101"})],
                 messages,
             )
 
         if wants_refund and "refund_payment" not in called:
-            return _tools(
-                [ToolCall(name="refund_payment", arguments={"order_id": "o_101"})],
-                messages,
-            )
+            return _tools([ToolCall(name="refund_payment", arguments={"order_id": "o_101"})], messages)
 
         if wants_ticket and "update_ticket" not in called:
             return _tools(
-                [
-                    ToolCall(
-                        name="update_ticket",
-                        arguments={"ticket_id": "t_1", "status": "resolved"},
-                    )
-                ],
+                [ToolCall(name="update_ticket", arguments={"ticket_id": "t_1", "status": "resolved"})],
                 messages,
             )
 
@@ -144,6 +133,7 @@ def _called_tools(messages: list[dict[str, Any]]) -> set[str]:
                 pass
         for name in re.findall(r"tool_call:(\w+)", raw):
             names.add(name)
+    # also scan tool role names if encoded
     for m in messages:
         if m.get("role") == "tool" and m.get("name"):
             names.add(m["name"])

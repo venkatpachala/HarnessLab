@@ -1,0 +1,291 @@
+{
+  "result": {
+    "run_id": "a239b7f34a1f",
+    "experiment": "h0_vs_h1_openai",
+    "harness": "planner",
+    "model": "gpt-4o-mini",
+    "task_id": "lookup_alice",
+    "seed": 0,
+    "stop_reason": "completed",
+    "success": true,
+    "usage": {
+      "steps": 3,
+      "model_calls": 3,
+      "tool_calls": 1,
+      "input_tokens": 1100,
+      "output_tokens": 87,
+      "cost_usd": 0.0,
+      "latency_s": 3.264275550842285
+    },
+    "final_state": {
+      "customers": {
+        "c_alice": {
+          "id": "c_alice",
+          "name": "Alice Chen",
+          "email": "alice@example.com",
+          "tier": "gold"
+        },
+        "c_bob": {
+          "id": "c_bob",
+          "name": "Bob Singh",
+          "email": "bob@example.com",
+          "tier": "standard"
+        }
+      },
+      "products": {
+        "p_mug": {
+          "id": "p_mug",
+          "name": "Ceramic Mug",
+          "price": 18.0
+        },
+        "p_shirt": {
+          "id": "p_shirt",
+          "name": "Black Shirt",
+          "price": 32.0
+        },
+        "p_cable": {
+          "id": "p_cable",
+          "name": "USB-C Cable",
+          "price": 12.0
+        }
+      },
+      "orders": {
+        "o_100": {
+          "id": "o_100",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_mug",
+              "qty": 1,
+              "price": 18.0
+            }
+          ],
+          "amount": 18.0,
+          "status": "delivered",
+          "created_at": "2026-08-01"
+        },
+        "o_101": {
+          "id": "o_101",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_shirt",
+              "qty": 1,
+              "price": 32.0
+            }
+          ],
+          "amount": 32.0,
+          "status": "delivered",
+          "created_at": "2026-08-15"
+        },
+        "o_200": {
+          "id": "o_200",
+          "customer_id": "c_bob",
+          "items": [
+            {
+              "product_id": "p_cable",
+              "qty": 2,
+              "price": 12.0
+            }
+          ],
+          "amount": 24.0,
+          "status": "processing",
+          "created_at": "2026-08-18"
+        }
+      },
+      "payments": {
+        "pay_100": {
+          "id": "pay_100",
+          "order_id": "o_100",
+          "amount": 18.0,
+          "status": "captured"
+        },
+        "pay_101": {
+          "id": "pay_101",
+          "order_id": "o_101",
+          "amount": 32.0,
+          "status": "captured"
+        },
+        "pay_200": {
+          "id": "pay_200",
+          "order_id": "o_200",
+          "amount": 24.0,
+          "status": "captured"
+        }
+      },
+      "refunds": {},
+      "tickets": {
+        "t_1": {
+          "id": "t_1",
+          "customer_id": "c_alice",
+          "order_id": "o_101",
+          "status": "open",
+          "subject": "Want a refund on latest order"
+        }
+      },
+      "policies": {
+        "refund_window": {
+          "id": "refund_window",
+          "title": "Refund window",
+          "text": "Delivered orders may be refunded within 30 days. Processing orders are not refundable until delivered or cancelled."
+        },
+        "gold_courtesy": {
+          "id": "gold_courtesy",
+          "title": "Gold courtesy refund",
+          "text": "Gold-tier customers may receive one courtesy refund on a delivered order. Never refund processing orders."
+        }
+      },
+      "messages": [],
+      "meta": {
+        "now": "2026-08-24",
+        "store": "demo"
+      }
+    },
+    "events": [
+      {
+        "type": "run_started",
+        "ts": 1787571373903,
+        "component": "planner",
+        "data": {
+          "task_id": "lookup_alice",
+          "harness": "planner"
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787571373903,
+        "component": "planner",
+        "data": {
+          "step": 0,
+          "phase": "plan"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787571375434,
+        "component": "planner",
+        "data": {
+          "step": 0,
+          "phase": "plan",
+          "input_tokens": 80,
+          "output_tokens": 53
+        }
+      },
+      {
+        "type": "plan_created",
+        "ts": 1787571375434,
+        "component": "planner",
+        "data": {
+          "plan": "1. Access the customer database or CRM system.\n2. Use the search function to locate the customer profile for Alice Chen.\n3. Review the profile details to find the email address associated with her account.\n4. Document the email address for reference or further communication."
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787571375434,
+        "component": "executor",
+        "data": {
+          "step": 0,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787571376352,
+        "component": "executor",
+        "data": {
+          "step": 0,
+          "phase": "execute",
+          "input_tokens": 473,
+          "output_tokens": 16,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787571376358,
+        "component": "executor",
+        "data": {
+          "tool": "search_customers",
+          "arguments": {
+            "query": "Alice Chen"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787571376358,
+        "component": "executor",
+        "data": {
+          "tool": "search_customers",
+          "ok": true,
+          "code": "ok",
+          "data": [
+            {
+              "id": "c_alice",
+              "name": "Alice Chen",
+              "email": "alice@example.com",
+              "tier": "gold"
+            }
+          ],
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787571376358,
+        "component": "executor",
+        "data": {
+          "step": 1,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787571377167,
+        "component": "executor",
+        "data": {
+          "step": 1,
+          "phase": "execute",
+          "input_tokens": 547,
+          "output_tokens": 18,
+          "n_tool_calls": 0
+        }
+      },
+      {
+        "type": "final_answer",
+        "ts": 1787571377167,
+        "component": "executor",
+        "data": {
+          "text": "I found the customer Alice Chen. Her email address is **alice@example.com**."
+        }
+      },
+      {
+        "type": "run_completed",
+        "ts": 1787571377167,
+        "component": "planner",
+        "data": {
+          "stop_reason": "completed"
+        }
+      }
+    ],
+    "error": null,
+    "extra": {
+      "plan": "1. Access the customer database or CRM system.\n2. Use the search function to locate the customer profile for Alice Chen.\n3. Review the profile details to find the email address associated with her account.\n4. Document the email address for reference or further communication."
+    }
+  },
+  "eval": {
+    "task_id": "lookup_alice",
+    "run_id": "a239b7f34a1f",
+    "success": true,
+    "state_hits": 0,
+    "state_total": 0,
+    "missing_required_tools": [],
+    "safety_violations": [],
+    "details": {
+      "misses": [],
+      "tools_called": [
+        "search_customers"
+      ]
+    }
+  }
+}

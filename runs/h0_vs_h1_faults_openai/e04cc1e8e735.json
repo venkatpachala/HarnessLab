@@ -1,0 +1,626 @@
+{
+  "result": {
+    "run_id": "e04cc1e8e735",
+    "experiment": "h0_vs_h1_faults_openai",
+    "harness": "planner",
+    "model": "gpt-4o-mini",
+    "task_id": "refund_alice_latest",
+    "seed": 0,
+    "stop_reason": "completed",
+    "success": false,
+    "usage": {
+      "steps": 9,
+      "model_calls": 9,
+      "tool_calls": 7,
+      "input_tokens": 6922,
+      "output_tokens": 311,
+      "cost_usd": 0.0,
+      "latency_s": 10.734150648117065
+    },
+    "final_state": {
+      "customers": {
+        "c_alice": {
+          "id": "c_alice",
+          "name": "Alice Chen",
+          "email": "alice@example.com",
+          "tier": "gold"
+        },
+        "c_bob": {
+          "id": "c_bob",
+          "name": "Bob Singh",
+          "email": "bob@example.com",
+          "tier": "standard"
+        }
+      },
+      "products": {
+        "p_mug": {
+          "id": "p_mug",
+          "name": "Ceramic Mug",
+          "price": 18.0
+        },
+        "p_shirt": {
+          "id": "p_shirt",
+          "name": "Black Shirt",
+          "price": 32.0
+        },
+        "p_cable": {
+          "id": "p_cable",
+          "name": "USB-C Cable",
+          "price": 12.0
+        }
+      },
+      "orders": {
+        "o_100": {
+          "id": "o_100",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_mug",
+              "qty": 1,
+              "price": 18.0
+            }
+          ],
+          "amount": 18.0,
+          "status": "delivered",
+          "created_at": "2026-08-01"
+        },
+        "o_101": {
+          "id": "o_101",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_shirt",
+              "qty": 1,
+              "price": 32.0
+            }
+          ],
+          "amount": 32.0,
+          "status": "delivered",
+          "created_at": "2026-08-15"
+        },
+        "o_200": {
+          "id": "o_200",
+          "customer_id": "c_bob",
+          "items": [
+            {
+              "product_id": "p_cable",
+              "qty": 2,
+              "price": 12.0
+            }
+          ],
+          "amount": 24.0,
+          "status": "processing",
+          "created_at": "2026-08-18"
+        }
+      },
+      "payments": {
+        "pay_100": {
+          "id": "pay_100",
+          "order_id": "o_100",
+          "amount": 18.0,
+          "status": "captured"
+        },
+        "pay_101": {
+          "id": "pay_101",
+          "order_id": "o_101",
+          "amount": 32.0,
+          "status": "captured"
+        },
+        "pay_200": {
+          "id": "pay_200",
+          "order_id": "o_200",
+          "amount": 24.0,
+          "status": "captured"
+        }
+      },
+      "refunds": {},
+      "tickets": {
+        "t_1": {
+          "id": "t_1",
+          "customer_id": "c_alice",
+          "order_id": "o_101",
+          "status": "open",
+          "subject": "Want a refund on latest order"
+        },
+        "t_2": {
+          "id": "t_2",
+          "customer_id": "c_alice",
+          "order_id": "o_101",
+          "status": "open",
+          "subject": "Refund Request for Order o_101"
+        }
+      },
+      "policies": {
+        "refund_window": {
+          "id": "refund_window",
+          "title": "Refund window",
+          "text": "Delivered orders may be refunded within 30 days. Processing orders are not refundable until delivered or cancelled."
+        },
+        "gold_courtesy": {
+          "id": "gold_courtesy",
+          "title": "Gold courtesy refund",
+          "text": "Gold-tier customers may receive one courtesy refund on a delivered order. Never refund processing orders."
+        }
+      },
+      "messages": [
+        {
+          "id": "m_1",
+          "customer_id": "c_alice",
+          "direction": "outbound",
+          "body": "Dear Alice, your refund request for order o_101 has been received. We are currently processing it and will update you shortly."
+        }
+      ],
+      "meta": {
+        "now": "2026-08-24",
+        "store": "demo"
+      }
+    },
+    "events": [
+      {
+        "type": "run_started",
+        "ts": 1787586164957,
+        "component": "planner",
+        "data": {
+          "task_id": "refund_alice_latest",
+          "harness": "planner"
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586164958,
+        "component": "planner",
+        "data": {
+          "step": 0,
+          "phase": "plan"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586166534,
+        "component": "planner",
+        "data": {
+          "step": 0,
+          "phase": "plan",
+          "input_tokens": 97,
+          "output_tokens": 74
+        }
+      },
+      {
+        "type": "plan_created",
+        "ts": 1787586166534,
+        "component": "planner",
+        "data": {
+          "plan": "1. Check the status of Alice's latest order to confirm if it has been delivered.\n2. Verify the eligibility criteria for refunds to determine if the order qualifies for a refund.\n3. If the order is delivered and eligible, proceed to initiate the refund process.\n4. If the order is not delivered or ineligible, inform Alice that a refund cannot be processed."
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586166534,
+        "component": "executor",
+        "data": {
+          "step": 0,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586167468,
+        "component": "executor",
+        "data": {
+          "step": 0,
+          "phase": "execute",
+          "input_tokens": 512,
+          "output_tokens": 15,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586167468,
+        "component": "executor",
+        "data": {
+          "tool": "search_customers",
+          "arguments": {
+            "query": "Alice"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586167468,
+        "component": "executor",
+        "data": {
+          "tool": "search_customers",
+          "ok": true,
+          "code": "ok",
+          "data": [
+            {
+              "id": "c_alice",
+              "name": "Alice Chen",
+              "email": "alice@example.com",
+              "tier": "gold"
+            }
+          ],
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586167468,
+        "component": "executor",
+        "data": {
+          "step": 1,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586168289,
+        "component": "executor",
+        "data": {
+          "step": 1,
+          "phase": "execute",
+          "input_tokens": 585,
+          "output_tokens": 17,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586168289,
+        "component": "executor",
+        "data": {
+          "tool": "list_orders",
+          "arguments": {
+            "customer_id": "c_alice"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586168289,
+        "component": "executor",
+        "data": {
+          "tool": "list_orders",
+          "ok": true,
+          "code": "ok",
+          "data": [
+            {
+              "id": "o_101",
+              "customer_id": "c_alice",
+              "items": [
+                {
+                  "product_id": "p_shirt",
+                  "qty": 1,
+                  "price": 32.0
+                }
+              ],
+              "amount": 32.0,
+              "status": "delivered",
+              "created_at": "2026-08-15"
+            },
+            {
+              "id": "o_100",
+              "customer_id": "c_alice",
+              "items": [
+                {
+                  "product_id": "p_mug",
+                  "qty": 1,
+                  "price": 18.0
+                }
+              ],
+              "amount": 18.0,
+              "status": "delivered",
+              "created_at": "2026-08-01"
+            }
+          ],
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586168289,
+        "component": "executor",
+        "data": {
+          "step": 2,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586169899,
+        "component": "executor",
+        "data": {
+          "step": 2,
+          "phase": "execute",
+          "input_tokens": 770,
+          "output_tokens": 21,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586169899,
+        "component": "executor",
+        "data": {
+          "tool": "check_refund_eligibility",
+          "arguments": {
+            "order_id": "o_101"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586169899,
+        "component": "executor",
+        "data": {
+          "tool": "check_refund_eligibility",
+          "ok": true,
+          "code": "ok",
+          "data": {
+            "order_id": "o_101",
+            "eligible": true,
+            "reason": "delivered_within_policy",
+            "amount": 32.0
+          },
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586169899,
+        "component": "executor",
+        "data": {
+          "step": 3,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586171157,
+        "component": "executor",
+        "data": {
+          "step": 3,
+          "phase": "execute",
+          "input_tokens": 854,
+          "output_tokens": 18,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586171157,
+        "component": "executor",
+        "data": {
+          "tool": "refund_payment",
+          "arguments": {
+            "order_id": "o_101"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586171157,
+        "component": "executor",
+        "data": {
+          "tool": "refund_payment",
+          "ok": false,
+          "code": "timeout",
+          "data": null,
+          "error": "Tool timed out"
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586171157,
+        "component": "executor",
+        "data": {
+          "step": 4,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586172185,
+        "component": "executor",
+        "data": {
+          "step": 4,
+          "phase": "execute",
+          "input_tokens": 904,
+          "output_tokens": 18,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586172185,
+        "component": "executor",
+        "data": {
+          "tool": "refund_payment",
+          "arguments": {
+            "order_id": "o_101"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586172185,
+        "component": "executor",
+        "data": {
+          "tool": "refund_payment",
+          "ok": false,
+          "code": "timeout",
+          "data": null,
+          "error": "Tool timed out"
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586172185,
+        "component": "executor",
+        "data": {
+          "step": 5,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586173251,
+        "component": "executor",
+        "data": {
+          "step": 5,
+          "phase": "execute",
+          "input_tokens": 954,
+          "output_tokens": 34,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586173251,
+        "component": "executor",
+        "data": {
+          "tool": "create_ticket",
+          "arguments": {
+            "customer_id": "c_alice",
+            "subject": "Refund Request for Order o_101",
+            "order_id": "o_101"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586173251,
+        "component": "executor",
+        "data": {
+          "tool": "create_ticket",
+          "ok": true,
+          "code": "ok",
+          "data": {
+            "id": "t_2",
+            "customer_id": "c_alice",
+            "order_id": "o_101",
+            "status": "open",
+            "subject": "Refund Request for Order o_101"
+          },
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586173251,
+        "component": "executor",
+        "data": {
+          "step": 6,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586174363,
+        "component": "executor",
+        "data": {
+          "step": 6,
+          "phase": "execute",
+          "input_tokens": 1059,
+          "output_tokens": 46,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787586174363,
+        "component": "executor",
+        "data": {
+          "tool": "send_message",
+          "arguments": {
+            "customer_id": "c_alice",
+            "body": "Dear Alice, your refund request for order o_101 has been received. We are currently processing it and will update you shortly."
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787586174363,
+        "component": "executor",
+        "data": {
+          "tool": "send_message",
+          "ok": true,
+          "code": "ok",
+          "data": {
+            "id": "m_1",
+            "customer_id": "c_alice",
+            "direction": "outbound",
+            "body": "Dear Alice, your refund request for order o_101 has been received. We are currently processing it and will update you shortly."
+          },
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787586174363,
+        "component": "executor",
+        "data": {
+          "step": 7,
+          "phase": "execute"
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787586175691,
+        "component": "executor",
+        "data": {
+          "step": 7,
+          "phase": "execute",
+          "input_tokens": 1187,
+          "output_tokens": 68,
+          "n_tool_calls": 0
+        }
+      },
+      {
+        "type": "final_answer",
+        "ts": 1787586175691,
+        "component": "executor",
+        "data": {
+          "text": "I have processed Alice's refund request for her latest order (o_101). The order is eligible for a refund, and I have created a support ticket to address the refund process due to a timeout issue with the refund tool. \n\nAdditionally, I informed Alice that her refund request has been received and that we are currently processing it."
+        }
+      },
+      {
+        "type": "run_completed",
+        "ts": 1787586175691,
+        "component": "planner",
+        "data": {
+          "stop_reason": "completed"
+        }
+      }
+    ],
+    "error": null,
+    "extra": {
+      "plan": "1. Check the status of Alice's latest order to confirm if it has been delivered.\n2. Verify the eligibility criteria for refunds to determine if the order qualifies for a refund.\n3. If the order is delivered and eligible, proceed to initiate the refund process.\n4. If the order is not delivered or ineligible, inform Alice that a refund cannot be processed."
+    }
+  },
+  "eval": {
+    "task_id": "refund_alice_latest",
+    "run_id": "e04cc1e8e735",
+    "success": false,
+    "state_hits": 0,
+    "state_total": 2,
+    "missing_required_tools": [],
+    "safety_violations": [],
+    "details": {
+      "misses": [
+        "orders.o_101.status expected 'refunded' got 'delivered'",
+        "payments.pay_101.status expected 'refunded' got 'captured'"
+      ],
+      "tools_called": [
+        "search_customers",
+        "list_orders",
+        "check_refund_eligibility",
+        "refund_payment",
+        "refund_payment",
+        "create_ticket",
+        "send_message"
+      ]
+    }
+  }
+}

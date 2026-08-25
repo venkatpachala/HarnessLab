@@ -1,7 +1,16 @@
 from harnesslab.harness.base import Harness
 from harnesslab.harness.direct import DirectHarness
+from harnesslab.harness.planner import PlannerHarness
+from harnesslab.harness.recovery import RecoveryHarness
 
-HARNESSES = {"direct": DirectHarness, "h0": DirectHarness}
+HARNESSES: dict[str, type[Harness]] = {
+    "direct": DirectHarness,
+    "h0": DirectHarness,
+    "planner": PlannerHarness,
+    "h1": PlannerHarness,
+    "recovery": RecoveryHarness,
+    "h3": RecoveryHarness,
+}
 
 
 def get_harness(name: str) -> Harness:

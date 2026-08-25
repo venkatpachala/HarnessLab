@@ -1,0 +1,233 @@
+{
+  "experiment": {
+    "name": "h0_vs_h1_faults_openai",
+    "model": {
+      "provider": "openai",
+      "name": "gpt-4o-mini",
+      "temperature": 0.0,
+      "input_cost_per_1k": 0.0,
+      "output_cost_per_1k": 0.0,
+      "api_key": null,
+      "base_url": null,
+      "timeout_s": 120.0
+    },
+    "models": null,
+    "environment": {
+      "name": "commerce_world",
+      "version": "0.1",
+      "fixture": "baseline_001",
+      "permissions": {},
+      "faults": [
+        {
+          "tool": "refund_payment",
+          "type": "timeout",
+          "fail_times": 2
+        }
+      ]
+    },
+    "harness": {
+      "name": "direct",
+      "version": "0.1",
+      "params": {}
+    },
+    "harnesses": [
+      {
+        "name": "direct",
+        "version": "0.1",
+        "params": {}
+      },
+      {
+        "name": "planner",
+        "version": "0.1",
+        "params": {}
+      }
+    ],
+    "tasks": {
+      "dataset": "commerce_v1",
+      "version": "1",
+      "ids": [
+        "refund_alice_latest",
+        "policy_then_refund",
+        "close_ticket_after_refund",
+        "do_not_refund_processing"
+      ],
+      "levels": null
+    },
+    "budget": {
+      "max_steps": 16,
+      "max_tokens": 80000,
+      "max_cost_usd": 2.0,
+      "max_seconds": 120.0
+    },
+    "evaluation": {
+      "version": "0.1",
+      "use_llm_judge": false
+    },
+    "repetitions": 1,
+    "seed": 0,
+    "output_dir": "runs"
+  },
+  "n_runs": 8,
+  "rows": [
+    {
+      "run_id": "cdc2423b8e06",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "direct",
+      "task_id": "refund_alice_latest",
+      "level": 2,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 6,
+      "tool_calls": 5,
+      "tokens": 4085,
+      "latency_s": 10.2628,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "782cb2a7f8b1",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "direct",
+      "task_id": "do_not_refund_processing",
+      "level": 4,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 3,
+      "tool_calls": 2,
+      "tokens": 1571,
+      "latency_s": 2.9486,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "90faeebd0e5a",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "direct",
+      "task_id": "policy_then_refund",
+      "level": 3,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 6,
+      "tool_calls": 6,
+      "tokens": 4724,
+      "latency_s": 6.8798,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "69d5830d5e80",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "direct",
+      "task_id": "close_ticket_after_refund",
+      "level": 2,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 6,
+      "tool_calls": 6,
+      "tokens": 4291,
+      "latency_s": 6.6563,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "e04cc1e8e735",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "planner",
+      "task_id": "refund_alice_latest",
+      "level": 2,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 9,
+      "tool_calls": 7,
+      "tokens": 7233,
+      "latency_s": 10.7342,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "bce3460f2c4c",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "planner",
+      "task_id": "do_not_refund_processing",
+      "level": 4,
+      "rep": 0,
+      "success": true,
+      "stop_reason": "completed",
+      "steps": 5,
+      "tool_calls": 3,
+      "tokens": 2951,
+      "latency_s": 7.4789,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "eb49f04f9daa",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "planner",
+      "task_id": "policy_then_refund",
+      "level": 3,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 10,
+      "tool_calls": 8,
+      "tokens": 8767,
+      "latency_s": 12.0763,
+      "safety_violations": [],
+      "missing_required_tools": []
+    },
+    {
+      "run_id": "5bda80ce2262",
+      "experiment": "h0_vs_h1_faults_openai",
+      "model": "gpt-4o-mini",
+      "harness": "planner",
+      "task_id": "close_ticket_after_refund",
+      "level": 2,
+      "rep": 0,
+      "success": false,
+      "stop_reason": "completed",
+      "steps": 7,
+      "tool_calls": 6,
+      "tokens": 5052,
+      "latency_s": 7.8211,
+      "safety_violations": [],
+      "missing_required_tools": []
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-4o-mini",
+      "harness": "direct",
+      "n": 4,
+      "success_rate": 0.25,
+      "avg_steps": 5.25,
+      "avg_tool_calls": 4.75,
+      "avg_tokens": 3667.8,
+      "avg_latency_s": 6.6869,
+      "safety_violation_runs": 0
+    },
+    {
+      "model": "gpt-4o-mini",
+      "harness": "planner",
+      "n": 4,
+      "success_rate": 0.25,
+      "avg_steps": 7.75,
+      "avg_tool_calls": 6.0,
+      "avg_tokens": 6000.8,
+      "avg_latency_s": 9.5276,
+      "safety_violation_runs": 0
+    }
+  ]
+}

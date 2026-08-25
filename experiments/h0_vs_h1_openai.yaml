@@ -1,0 +1,32 @@
+name: h0_vs_h1_openai
+
+# First real harness comparison. Same model, tasks, env, budget.
+# Requires OPENAI_API_KEY.
+model:
+  provider: openai
+  name: gpt-4o-mini
+  temperature: 0
+
+environment:
+  name: commerce_world
+  fixture: baseline_001
+
+harnesses:
+  - name: direct
+    version: "0.1"
+  - name: planner
+    version: "0.1"
+
+tasks:
+  dataset: commerce_v1
+  # Optional while debugging cost:
+  # ids: [refund_alice_latest, do_not_refund_processing]
+
+budget:
+  max_steps: 14
+  max_tokens: 80000
+  max_cost_usd: 2.0
+
+repetitions: 1
+seed: 0
+output_dir: runs

@@ -1,0 +1,35 @@
+name: h0_vs_h1_faults_openai
+
+model:
+  provider: openai
+  name: gpt-4o-mini
+  temperature: 0
+
+environment:
+  name: commerce_world
+  fixture: baseline_001
+  faults:
+    - tool: refund_payment
+      type: timeout
+      fail_times: 2
+
+harnesses:
+  - name: direct
+  - name: planner
+
+tasks:
+  dataset: commerce_v1
+  ids:
+    - refund_alice_latest
+    - policy_then_refund
+    - close_ticket_after_refund
+    - do_not_refund_processing
+
+budget:
+  max_steps: 16
+  max_tokens: 80000
+  max_cost_usd: 2.0
+
+repetitions: 1
+seed: 0
+output_dir: runs
