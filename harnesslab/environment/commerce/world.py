@@ -33,6 +33,7 @@ class CommerceWorld(Environment):
         self._fixture_name = fixture
         self.permissions = {**DEFAULT_PERMISSIONS, **(permissions or {})}
         self.faults = list(faults or [])
+        self._fault_hits: list[int] = [0] * len(self.faults)
         self._rng = random.Random(rng_seed)
         self._state: dict[str, Any] = {}
         self._handlers: dict[str, Callable[..., Any]] = {
@@ -56,6 +57,7 @@ class CommerceWorld(Environment):
         name = fixture or self._fixture_name
         self._fixture_name = name
         self._state = get_fixture(name)
+        self._fault_hits = [0] * len(self.faults)
         return self.get_state()
 
     def snapshot(self) -> dict[str, Any]:
@@ -197,7 +199,6 @@ class CommerceWorld(Environment):
             return res
 
     def inject_event(self, kind: str, payload: dict[str, Any]) -> None:
-        """Non-stationary world hook (used later)."""
         if kind == "order_status":
             oid = payload["order_id"]
             if oid in self._state["orders"]:
@@ -214,14 +215,19 @@ class CommerceWorld(Environment):
         else:
             raise ValueError(f"Unknown event kind: {kind}")
 
-    # --- faults ---
     def _maybe_fault(self, tool: str) -> ToolResult | None:
-        for f in self.faults:
+        for i, f in enumerate(self.faults):
             if f.get("tool") not in (None, "*", tool):
                 continue
-            p = float(f.get("probability", 1.0))
-            if self._rng.random() > p:
-                continue
+            limit = f.get("fail_times")
+            if limit is not None:
+                if self._fault_hits[i] >= int(limit):
+                    continue
+                self._fault_hits[i] += 1
+            else:
+                p = float(f.get("probability", 1.0))
+                if self._rng.random() > p:
+                    continue
             kind = f.get("type", "server_error")
             mapping = {
                 "timeout": ("timeout", "Tool timed out"),
@@ -235,7 +241,6 @@ class CommerceWorld(Environment):
             return ToolResult(ok=False, code=code, error=msg)
         return None
 
-    # --- domain rules ---
     def _eligibility(self, order: dict[str, Any]) -> tuple[bool, str]:
         if order["status"] == "refunded":
             return False, "already_refunded"

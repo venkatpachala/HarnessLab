@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+import inspect
+from typing import Any
+
 from harnesslab.harness.base import Harness
 from harnesslab.harness.direct import DirectHarness
 from harnesslab.harness.planner import PlannerHarness
@@ -13,8 +18,12 @@ HARNESSES: dict[str, type[Harness]] = {
 }
 
 
-def get_harness(name: str) -> Harness:
+def get_harness(name: str, params: dict[str, Any] | None = None) -> Harness:
     key = name.lower()
     if key not in HARNESSES:
         raise KeyError(f"Unknown harness {name}. Have {list(HARNESSES)}")
-    return HARNESSES[key]()
+    cls = HARNESSES[key]
+    raw = dict(params or {})
+    sig = inspect.signature(cls.__init__)
+    allowed = {k: v for k, v in raw.items() if k in sig.parameters and k != "self"}
+    return cls(**allowed)

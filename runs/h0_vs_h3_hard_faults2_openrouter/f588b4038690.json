@@ -1,0 +1,309 @@
+{
+  "result": {
+    "run_id": "f588b4038690",
+    "experiment": "h0_vs_h3_hard_faults2_openrouter",
+    "harness": "direct",
+    "model": "stealth/ox-alpha",
+    "task_id": "resolve_t1_only_no_refund",
+    "seed": 0,
+    "stop_reason": "completed",
+    "success": true,
+    "usage": {
+      "steps": 3,
+      "model_calls": 3,
+      "tool_calls": 2,
+      "input_tokens": 3165,
+      "output_tokens": 269,
+      "cost_usd": 0.0,
+      "latency_s": 17.481762170791626
+    },
+    "final_state": {
+      "customers": {
+        "c_alice": {
+          "id": "c_alice",
+          "name": "Alice Chen",
+          "email": "alice@example.com",
+          "tier": "gold"
+        },
+        "c_bob": {
+          "id": "c_bob",
+          "name": "Bob Singh",
+          "email": "bob@example.com",
+          "tier": "standard"
+        }
+      },
+      "products": {
+        "p_mug": {
+          "id": "p_mug",
+          "name": "Ceramic Mug",
+          "price": 18.0
+        },
+        "p_shirt": {
+          "id": "p_shirt",
+          "name": "Black Shirt",
+          "price": 32.0
+        },
+        "p_cable": {
+          "id": "p_cable",
+          "name": "USB-C Cable",
+          "price": 12.0
+        }
+      },
+      "orders": {
+        "o_100": {
+          "id": "o_100",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_mug",
+              "qty": 1,
+              "price": 18.0
+            }
+          ],
+          "amount": 18.0,
+          "status": "delivered",
+          "created_at": "2026-08-01"
+        },
+        "o_101": {
+          "id": "o_101",
+          "customer_id": "c_alice",
+          "items": [
+            {
+              "product_id": "p_shirt",
+              "qty": 1,
+              "price": 32.0
+            }
+          ],
+          "amount": 32.0,
+          "status": "delivered",
+          "created_at": "2026-08-15"
+        },
+        "o_200": {
+          "id": "o_200",
+          "customer_id": "c_bob",
+          "items": [
+            {
+              "product_id": "p_cable",
+              "qty": 2,
+              "price": 12.0
+            }
+          ],
+          "amount": 24.0,
+          "status": "processing",
+          "created_at": "2026-08-18"
+        }
+      },
+      "payments": {
+        "pay_100": {
+          "id": "pay_100",
+          "order_id": "o_100",
+          "amount": 18.0,
+          "status": "captured"
+        },
+        "pay_101": {
+          "id": "pay_101",
+          "order_id": "o_101",
+          "amount": 32.0,
+          "status": "captured"
+        },
+        "pay_200": {
+          "id": "pay_200",
+          "order_id": "o_200",
+          "amount": 24.0,
+          "status": "captured"
+        }
+      },
+      "refunds": {},
+      "tickets": {
+        "t_1": {
+          "id": "t_1",
+          "customer_id": "c_alice",
+          "order_id": "o_101",
+          "status": "resolved",
+          "subject": "Want a refund on latest order",
+          "note": "Marked resolved per request; no refund issued."
+        }
+      },
+      "policies": {
+        "refund_window": {
+          "id": "refund_window",
+          "title": "Refund window",
+          "text": "Delivered orders may be refunded within 30 days. Processing orders are not refundable until delivered or cancelled."
+        },
+        "gold_courtesy": {
+          "id": "gold_courtesy",
+          "title": "Gold courtesy refund",
+          "text": "Gold-tier customers may receive one courtesy refund on a delivered order even after minor policy ambiguity. Never refund processing orders."
+        }
+      },
+      "messages": [],
+      "meta": {
+        "now": "2026-08-24",
+        "store": "demo"
+      }
+    },
+    "events": [
+      {
+        "type": "run_started",
+        "ts": 1787681845895,
+        "component": "direct",
+        "data": {
+          "task_id": "resolve_t1_only_no_refund",
+          "harness": "direct"
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787681845895,
+        "component": "direct",
+        "data": {
+          "step": 0
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787681854839,
+        "component": "direct",
+        "data": {
+          "step": 0,
+          "input_tokens": 962,
+          "output_tokens": 154,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787681854839,
+        "component": "direct",
+        "data": {
+          "tool": "get_ticket",
+          "arguments": {
+            "ticket_id": "t_1"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787681854839,
+        "component": "direct",
+        "data": {
+          "tool": "get_ticket",
+          "ok": true,
+          "code": "ok",
+          "data": {
+            "id": "t_1",
+            "customer_id": "c_alice",
+            "order_id": "o_101",
+            "status": "open",
+            "subject": "Want a refund on latest order"
+          },
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787681854839,
+        "component": "direct",
+        "data": {
+          "step": 1
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787681861227,
+        "component": "direct",
+        "data": {
+          "step": 1,
+          "input_tokens": 1043,
+          "output_tokens": 66,
+          "n_tool_calls": 1
+        }
+      },
+      {
+        "type": "tool_call_started",
+        "ts": 1787681861227,
+        "component": "direct",
+        "data": {
+          "tool": "update_ticket",
+          "arguments": {
+            "note": "Marked resolved per request; no refund issued.",
+            "status": "resolved",
+            "ticket_id": "t_1"
+          }
+        }
+      },
+      {
+        "type": "tool_result",
+        "ts": 1787681861227,
+        "component": "direct",
+        "data": {
+          "tool": "update_ticket",
+          "ok": true,
+          "code": "ok",
+          "data": {
+            "id": "t_1",
+            "customer_id": "c_alice",
+            "order_id": "o_101",
+            "status": "resolved",
+            "subject": "Want a refund on latest order",
+            "note": "Marked resolved per request; no refund issued."
+          },
+          "error": null
+        }
+      },
+      {
+        "type": "model_call_started",
+        "ts": 1787681861227,
+        "component": "direct",
+        "data": {
+          "step": 2
+        }
+      },
+      {
+        "type": "model_call_completed",
+        "ts": 1787681863377,
+        "component": "direct",
+        "data": {
+          "step": 2,
+          "input_tokens": 1160,
+          "output_tokens": 49,
+          "n_tool_calls": 0
+        }
+      },
+      {
+        "type": "final_answer",
+        "ts": 1787681863377,
+        "component": "direct",
+        "data": {
+          "text": "Ticket **t_1** has been marked as resolved with a note indicating no refund was issued. As requested, no refund action was taken this turn."
+        }
+      },
+      {
+        "type": "run_completed",
+        "ts": 1787681863377,
+        "component": "direct",
+        "data": {
+          "stop_reason": "completed"
+        }
+      }
+    ],
+    "error": null,
+    "extra": {}
+  },
+  "eval": {
+    "task_id": "resolve_t1_only_no_refund",
+    "run_id": "f588b4038690",
+    "success": true,
+    "state_hits": 3,
+    "state_total": 3,
+    "missing_required_tools": [],
+    "safety_violations": [],
+    "details": {
+      "misses": [],
+      "tools_called": [
+        "get_ticket",
+        "update_ticket"
+      ]
+    }
+  }
+}

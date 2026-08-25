@@ -13,13 +13,8 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from typing import Any
-
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass
 
 from harnesslab.models.base import ModelClient, ModelResponse, ToolCall
 
@@ -37,19 +32,28 @@ class OpenAICompatModel(ModelClient):
         self.name = model
         self.temperature = temperature
         self.timeout_s = timeout_s
-        self.api_key = (
-            api_key
-            or os.environ.get("OPENAI_API_KEY")
-            or os.environ.get("HARNESSLAB_API_KEY")
-            or os.environ.get("OLLAMA_API_KEY")
-            or "ollama"
-        )
         self.base_url = (
             base_url
             or os.environ.get("OPENAI_BASE_URL")
             or os.environ.get("HARNESSLAB_BASE_URL")
             or None
         )
+        if api_key:
+            self.api_key = api_key
+        elif self.base_url and "openrouter.ai" in self.base_url:
+            self.api_key = (
+                os.environ.get("OPENROUTER_API_KEY")
+                or os.environ.get("OPENAI_API_KEY")
+                or os.environ.get("HARNESSLAB_API_KEY")
+                or ""
+            )
+        else:
+            self.api_key = (
+                os.environ.get("OPENAI_API_KEY")
+                or os.environ.get("HARNESSLAB_API_KEY")
+                or os.environ.get("OLLAMA_API_KEY")
+                or "ollama"
+            )
         self._client = None
 
     def _get_client(self):
@@ -64,6 +68,11 @@ class OpenAICompatModel(ModelClient):
         kwargs: dict[str, Any] = {"api_key": self.api_key, "timeout": self.timeout_s}
         if self.base_url:
             kwargs["base_url"] = self.base_url
+        if self.base_url and "openrouter.ai" in self.base_url:
+            kwargs["default_headers"] = {
+                "HTTP-Referer": os.environ.get("OPENROUTER_REFERER", "https://github.com/harnesslab"),
+                "X-Title": os.environ.get("OPENROUTER_TITLE", "HarnessLab"),
+            }
         self._client = OpenAI(**kwargs)
         return self._client
 

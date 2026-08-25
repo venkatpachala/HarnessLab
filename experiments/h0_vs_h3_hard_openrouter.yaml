@@ -1,0 +1,42 @@
+name: h0_vs_h3_hard_openrouter
+
+# Happy-path, no faults, OpenRouter. 1 rep smoke before spending on faults.
+# Swap model.name — that is the only line that changes the brain.
+model:
+  provider: openrouter
+  name: stealth/ox-alpha
+  temperature: 0
+  base_url: https://openrouter.ai/api/v1
+
+environment:
+  name: commerce_world
+  fixture: hard_001
+
+harnesses:
+  - name: direct
+  - name: recovery
+    params:
+      max_retries: 2
+
+tasks:
+  dataset: commerce_v1
+  ids:
+    - refund_alice_not_alicia
+    - refund_older_mug_not_latest
+    - refuse_cancelled_order
+    - refuse_bob_processing_named
+    - refund_both_alice_delivered
+    - refund_and_resolve_t1
+    - policy_then_refuse_processing
+    - conflicting_refund_both_customers
+    - dual_refund_baseline
+    - resolve_t1_only_no_refund
+
+budget:
+  max_steps: 16
+  max_tokens: 80000
+  max_cost_usd: 4.0
+
+repetitions: 1
+seed: 0
+output_dir: runs

@@ -14,19 +14,32 @@ from harnesslab.tasks.loader import load_tasks, select_tasks
 
 
 def build_model(provider: str, name: str, cfg: ModelConfig | None = None):
+    """Build a ModelClient. cfg carries temperature / base_url / api_key when present."""
     provider = (provider or "mock").lower()
     if provider in {"mock", "none"} or name.startswith("mock"):
         return MockScriptModel()
 
-    if provider in {"openai", "openai_compat", "ollama", "openrouter", "vllm", "azure"}:
+    if provider in {
+        "openai",
+        "openai_compat",
+        "ollama",
+        "openrouter",
+        "vllm",
+        "azure",
+    }:
         base_url = cfg.base_url if cfg else None
         if provider == "ollama" and not base_url:
             base_url = "http://localhost:11434/v1"
         if provider == "openrouter" and not base_url:
             base_url = "https://openrouter.ai/api/v1"
+        api_key = cfg.api_key if cfg else None
+        if provider == "openrouter" and not api_key:
+            import os
+
+            api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
         return OpenAICompatModel(
             model=name,
-            api_key=(cfg.api_key if cfg else None),
+            api_key=api_key,
             base_url=base_url,
             temperature=(cfg.temperature if cfg else 0.0),
             timeout_s=(cfg.timeout_s if cfg else 120.0),
@@ -44,6 +57,7 @@ def run_once(
     harness_name: str,
     model,
     seed: int,
+    harness_params: dict | None = None,
 ) -> tuple[ExecutionResult, EvalReport]:
     env = CommerceWorld(
         fixture=task.fixture or cfg.environment.fixture or "baseline_001",
@@ -52,7 +66,7 @@ def run_once(
         rng_seed=seed,
     )
     before = env.get_state()
-    harness = get_harness(harness_name)
+    harness = get_harness(harness_name, harness_params)
     result = harness.run(task, env, model, cfg.budget, seed=seed)
     result.experiment = cfg.name
     report = evaluate_run(task, result, initial_state=before)
@@ -83,7 +97,9 @@ def run_experiment(cfg: ExperimentConfig, output_dir: str | Path | None = None) 
             for task in tasks:
                 for r in range(cfg.repetitions):
                     seed = cfg.seed + r
-                    result, report = run_once(cfg, task, hcfg.name, model, seed)
+                    result, report = run_once(
+                        cfg, task, hcfg.name, model, seed, harness_params=hcfg.params
+                    )
                     n += 1
                     rec = {
                         "run_id": result.run_id,

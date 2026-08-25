@@ -1,0 +1,39 @@
+name: h0_vs_h3_hard_openai
+
+# Kill-test cell 1: harder tasks, no faults, gpt-4o-mini, 3 reps.
+# 10-task core (not the full 24) so cost stays bounded.
+model:
+  provider: openai
+  name: gpt-4o-mini
+  temperature: 0
+
+environment:
+  name: commerce_world
+  fixture: hard_001
+
+harnesses:
+  - name: direct
+  - name: recovery
+
+tasks:
+  dataset: commerce_v1
+  ids:
+    - refund_alice_not_alicia
+    - refund_older_mug_not_latest
+    - refuse_cancelled_order
+    - refuse_bob_processing_named
+    - refund_both_alice_delivered
+    - refund_and_resolve_t1
+    - policy_then_refuse_processing
+    - conflicting_refund_both_customers
+    - dual_refund_baseline
+    - resolve_t1_only_no_refund
+
+budget:
+  max_steps: 16
+  max_tokens: 80000
+  max_cost_usd: 8.0
+
+repetitions: 3
+seed: 0
+output_dir: runs
